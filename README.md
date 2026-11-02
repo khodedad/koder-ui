@@ -1,45 +1,63 @@
-# KODER UI Library
+# Koder UI
 
-یک کتابخانه مدرن و حرفه‌ای Jetpack Compose برای اندروید با پشتیبانی از Java و XML.
+Professional Jetpack Compose UI Components Library for KODER Browser & Modern Android Applications.
 
-## 🚀 راهنمای انتشار در گیت‌هاب (JitPack)
-
-برای اینکه بتوانید این کتابخانه را مستقیم از گیت‌هاب در IDE (مانند Android Studio) دانلود و استفاده کنید، آسان‌ترین روش استفاده از **JitPack** است:
-
-### گام ۱: آپلود کدها در گیت‌هاب
-کدهای جدید پروژه را در ریپوزیتوری گیت‌هاب خود push کنید:
-```bash
-git add .
-git commit -m "Release v1.0.0 of KODER UI"
-git push origin main
-```
-
-### گام ۲: ساخت یک Release یا Tag در گیت‌هاب
-1. وارد صفحه ریپوزیتوری خود در GitHub (`khodedad/koder-ui`) شوید.
-2. از سمت راست روی **Releases** کلیک کنید و **Create a new release** را بزنید.
-3. یک تگ به اسم `v1.0.0` بسازید و دکمه **Publish release** را بزنید.
+## 🚀 Features & Components
+- **`KoderButton`**: Modern, highly customizable Material 3 rounded button.
+- **`KoderSlider`**: Ultra-modern track-only slider with dynamic 1.5x thickness and circular minimum state.
+- **`KoderSwitch`**: Clean, smooth-animated toggle switch.
 
 ---
 
-## 📦 نحوه استفاده در پروژه‌های دیگر (IDE)
+## 📦 How to Publish on JitPack (Private Repository)
 
-### ۱. اضافه کردن ریپوزیتوری JitPack
+1. **Push your code to GitHub**:
+   Ensure all changes are pushed to your private GitHub repository (e.g. `khodedad/koder-ui`).
 
-در پروژه مقصد، فایل `settings.gradle.kts` را باز کرده و `https://jitpack.io` را اضافه کنید:
+2. **Create a Tag / Release**:
+   Create a new release or git tag on GitHub, for example: `v1.0.0`.
+
+3. **Get a JitPack Auth Token**:
+   - Log in to [JitPack.io](https://jitpack.io).
+   - Go to **Account** -> **Tokens** and copy your Personal Access Token.
+
+---
+
+## 🔧 How to Use in Another Project
+
+### 1. Configure Repositories (`settings.gradle.kts`)
+
+Add the JitPack repository with your authentication token:
 
 ```kotlin
 dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
+        maven {
+            url = java.net.URI("https://jitpack.io")
+            credentials {
+                username = "jp_your_jitpack_token_here" // Your JitPack token
+            }
+        }
     }
 }
 ```
 
-### ۲. اضافه کردن وابستگی کتابخانه
+Or using `authToken` in `authToken` parameter:
 
-در فایل `build.gradle.kts` ماژول app پروژه خود:
+```kotlin
+maven {
+    url = java.net.URI("https://jitpack.io")
+    credentials {
+        username = "YOUR_JITPACK_TOKEN"
+    }
+}
+```
+
+### 2. Add Dependency (`build.gradle.kts`)
+
+In your app or module level `build.gradle.kts`:
 
 ```kotlin
 dependencies {
@@ -47,37 +65,33 @@ dependencies {
 }
 ```
 
----
+### 3. Usage in Code
 
-## 🎨 نحوه استفاده از کامپوننت‌ها
-
-### در Jetpack Compose (Kotlin):
 ```kotlin
-// دکمه مدرن
-KoderButton(
-    text = "شروع",
-    onClick = { /* عمل مورد نظر */ }
-)
+import koder.ui.KoderButton
+import koder.ui.KoderSlider
+import koder.ui.KoderSwitch
 
-// اسلایدر فوق مدرن با انحنای داینامیک
-var sliderVal by remember { mutableFloatStateOf(0.5f) }
-KoderSlider(
-    value = sliderVal,
-    onValueChange = { sliderVal = it }
-)
+@Composable
+fun DemoScreen() {
+    var sliderValue by remember { mutableFloatStateOf(0f) }
+    var switchValue by remember { mutableStateOf(true) }
 
-// سویچ بار مدرن
-var switchState by remember { mutableStateOf(true) }
-KoderSwitch(
-    checked = switchState,
-    onCheckedChange = { switchState = it }
-)
-```
+    Column {
+        KoderButton(
+            text = "Click Me",
+            onClick = { /* Action */ }
+        )
 
-### در XML / Java (پروژه‌های کلاسیک):
-```xml
-<koder.ui.KoderButtonView
-    android:id="@+id/koderBtn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+        KoderSlider(
+            value = sliderValue,
+            onValueChange = { sliderValue = it }
+        )
+
+        KoderSwitch(
+            checked = switchValue,
+            onCheckedChange = { switchValue = it }
+        )
+    }
+}
 ```

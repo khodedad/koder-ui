@@ -1,11 +1,11 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("maven-publish")
+    `maven-publish`
 }
 
 android {
-    namespace = "koder.ui.lib"
+    namespace = "koder.ui"
     compileSdk = 35
 
     defaultConfig {
@@ -14,12 +14,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "21"
+        jvmTarget = "1.8"
     }
 
     buildFeatures {
@@ -37,6 +37,12 @@ android {
     }
 }
 
+dependencies {
+    implementation(platform("androidx.compose:compose-bom:2025.01.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+}
+
 afterEvaluate {
     publishing {
         publications {
@@ -48,10 +54,4 @@ afterEvaluate {
             }
         }
     }
-}
-
-dependencies {
-    implementation(platform("androidx.compose:compose-bom:2025.01.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.material3:material3")
 }
