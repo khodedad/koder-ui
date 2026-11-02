@@ -50,7 +50,14 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.khodedad"
                 artifactId = "koder-ui"
-                version = "1.0.0"
+                version = "1.0.1"
+
+                pom {
+                    packaging = "aar"
+                    name.set("Koder UI")
+                    description.set("Modern UI Library for Android supporting Compose, Java, and XML Views")
+                    url.set("https://github.com/khodedad/koder-ui")
+                }
             }
         }
     }

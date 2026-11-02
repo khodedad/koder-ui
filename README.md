@@ -1,97 +1,80 @@
 # Koder UI
 
-Professional Jetpack Compose UI Components Library for KODER Browser & Modern Android Applications.
+Professional UI Components Library for Android — Supporting Jetpack Compose, Java & XML Views.
 
 ## 🚀 Features & Components
-- **`KoderButton`**: Modern, highly customizable Material 3 rounded button.
-- **`KoderSlider`**: Ultra-modern track-only slider with dynamic 1.5x thickness and circular minimum state.
-- **`KoderSwitch`**: Clean, smooth-animated toggle switch.
+- **`KoderButton` / `KoderButtonView`**: Modern Material 3 rounded button (Compose & XML/Java View).
+- **`KoderSlider` / `KoderSliderView`**: Ultra-modern track-only slider with dynamic 1.5x thickness and circular minimum state.
+- **`KoderSwitch` / `KoderSwitchView`**: Clean, smooth-animated toggle switch.
 
 ---
 
-## 📦 How to Publish on JitPack (Private Repository)
+## 📱 Java & XML Layout Support (Sketchware Pro / AIDE / Traditional Android)
 
-1. **Push your code to GitHub**:
-   Ensure all changes are pushed to your private GitHub repository (e.g. `khodedad/koder-ui`).
+You can use all components directly in **XML Layouts** and **Java Code**:
 
-2. **Create a Tag / Release**:
-   Create a new release or git tag on GitHub, for example: `v1.0.0`.
+### XML Layout (`res/layout/activity_main.xml`):
 
-3. **Get a JitPack Auth Token**:
-   - Log in to [JitPack.io](https://jitpack.io).
-   - Go to **Account** -> **Tokens** and copy your Personal Access Token.
+```xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <koder.ui.KoderButtonView
+        android:id="@+id/koderBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <koder.ui.KoderSliderView
+        android:id="@+id/koderSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <koder.ui.KoderSwitchView
+        android:id="@+id/koderSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+```
+
+### Java Code:
+
+```java
+import koder.ui.KoderButtonView;
+import koder.ui.KoderSliderView;
+import koder.ui.KoderSwitchView;
+
+public class MainActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main);
+
+        KoderButtonView btn = findViewById(R.id.koderBtn);
+        btn.setKoderText("Submit");
+        btn.setOnKoderClickListener(() -> {
+            Toast.makeText(this, "Clicked!", Toast.LENGTH_SHORT).show();
+        });
+
+        KoderSliderView slider = findViewById(R.id.koderSlider);
+        slider.setSliderValue(0.5f);
+
+        KoderSwitchView switchView = findViewById(R.id.koderSwitch);
+        switchView.setCheckedState(true);
+    }
+}
+```
 
 ---
 
-## 🔧 How to Use in Another Project
+## 📦 How to Resolve in Sketchware Pro / AIDE / Gradle
 
-### 1. Configure Repositories (`settings.gradle.kts`)
+Set `packaging = "aar"` and use dependency format:
 
-Add the JitPack repository with your authentication token:
-
-```kotlin
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            url = java.net.URI("https://jitpack.io")
-            credentials {
-                username = "jp_your_jitpack_token_here" // Your JitPack token
-            }
-        }
-    }
-}
 ```
-
-Or using `authToken` in `authToken` parameter:
-
-```kotlin
-maven {
-    url = java.net.URI("https://jitpack.io")
-    credentials {
-        username = "YOUR_JITPACK_TOKEN"
-    }
-}
+com.github.khodedad:koder-ui:1.0.1
 ```
-
-### 2. Add Dependency (`build.gradle.kts`)
-
-In your app or module level `build.gradle.kts`:
-
-```kotlin
-dependencies {
-    implementation("com.github.khodedad:koder-ui:v1.0.0")
-}
-```
-
-### 3. Usage in Code
-
-```kotlin
-import koder.ui.KoderButton
-import koder.ui.KoderSlider
-import koder.ui.KoderSwitch
-
-@Composable
-fun DemoScreen() {
-    var sliderValue by remember { mutableFloatStateOf(0f) }
-    var switchValue by remember { mutableStateOf(true) }
-
-    Column {
-        KoderButton(
-            text = "Click Me",
-            onClick = { /* Action */ }
-        )
-
-        KoderSlider(
-            value = sliderValue,
-            onValueChange = { sliderValue = it }
-        )
-
-        KoderSwitch(
-            checked = switchValue,
-            onCheckedChange = { switchValue = it }
-        )
-    }
-}
-```
+*(Ensure release tag matches `1.0.1` without conflicting `v` prefix mismatch in JitPack)*.

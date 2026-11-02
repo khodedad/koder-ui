@@ -14,11 +14,18 @@ class KoderButtonView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
 
-    var text by mutableStateOf("Button")
-    var onClick by mutableStateOf({})
+    var koderText: String by mutableStateOf("Button")
+    var onKoderClick: (() -> Unit)? = null
 
     @Composable
     override fun Content() {
-        KoderButton(text = text, onClick = onClick)
+        KoderButton(
+            text = koderText,
+            onClick = { onKoderClick?.invoke() }
+        )
+    }
+
+    fun setOnKoderClickListener(listener: Runnable) {
+        onKoderClick = { listener.run() }
     }
 }

@@ -14,11 +14,25 @@ class KoderSwitchView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
 
-    var checked by mutableStateOf(false)
-    var onCheckedChange by mutableStateOf({ _: Boolean -> })
+    var isCheckedState: Boolean by mutableStateOf(false)
+    var onCheckedChangeListener: ((Boolean) -> Unit)? = null
 
     @Composable
     override fun Content() {
-        KoderSwitch(checked = checked, onCheckedChange = onCheckedChange)
+        KoderSwitch(
+            checked = isCheckedState,
+            onCheckedChange = { checked ->
+                isCheckedState = checked
+                onCheckedChangeListener?.invoke(checked)
+            }
+        )
+    }
+
+    fun setOnCheckedChangeListener(listener: OnCheckedChangeListener) {
+        onCheckedChangeListener = { checked -> listener.onCheckedChange(checked) }
+    }
+
+    fun interface OnCheckedChangeListener {
+        fun onCheckedChange(checked: Boolean)
     }
 }
